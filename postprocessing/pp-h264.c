@@ -88,7 +88,7 @@ int janus_pp_h264_create(char *destination) {
 	vStream->codec->height = max_height;
 	vStream->codec->pix_fmt = PIX_FMT_YUV420P;
 	//~ if (fctx->flags & AVFMT_GLOBALHEADER)
-		vStream->codec->flags |= CODEC_FLAG_GLOBAL_HEADER;
+		vStream->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 	if(avio_open(&fctx->pb, fctx->filename, AVIO_FLAG_WRITE) < 0) {
 		JANUS_LOG(LOG_ERR, "Error opening file for output\n");
 		return -1;
@@ -381,7 +381,7 @@ int janus_pp_h264_process(FILE *file, janus_pp_frame_packet *list, int *working)
 		}
 		if(frameLen > 0) {
 			/* Save the frame */
-			memset(received_frame + frameLen, 0, FF_INPUT_BUFFER_PADDING_SIZE);
+			memset(received_frame + frameLen, 0, AV_INPUT_BUFFER_PADDING_SIZE);
 
 			AVPacket packet;
 			av_init_packet(&packet);
